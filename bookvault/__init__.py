@@ -1,1 +1,2 @@
-"""BookVault application package."""
+"""BookVault local library manager."""
+

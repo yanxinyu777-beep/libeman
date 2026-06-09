@@ -49,3 +49,4 @@ if ($result -eq [System.Windows.Forms.DialogResult]::OK) {{
 
 def _escape_powershell_string(value: str) -> str:
     return value.replace("'", "''")
+

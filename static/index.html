@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>BookVault</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <header class="app-header">
+      <div class="brand">
+        <div class="brand-mark">B</div>
+        <div>
+          <h1>BookVault</h1>
+          <p>本地藏书索引与批量整理</p>
+        </div>
+      </div>
+      <div class="stats" id="stats"></div>
+    </header>
+
+    <section class="scan-band">
+      <label class="path-field">
+        <span>扫描位置</span>
+        <div class="path-picker">
+          <input id="scanRoot" type="text" readonly placeholder="点击选择文件夹" />
+          <button id="chooseRoot" type="button">选择位置</button>
+        </div>
+      </label>
+      <label class="check-field">
+        <input id="extractText" type="checkbox" checked />
+        <span>提取简介文本</span>
+      </label>
+      <button id="startScan" class="primary">开始扫描</button>
+    </section>
+
+    <main class="layout">
+      <aside class="sidebar">
+        <div class="side-section">
+          <div class="side-title">格式</div>
+          <div id="formatFilters" class="filter-list"></div>
+        </div>
+        <div class="side-section">
+          <div class="side-title">标签</div>
+          <div id="tagFilters" class="filter-list tag-list"></div>
+        </div>
+      </aside>
+
+      <section class="workspace">
+        <div class="toolbar">
+          <label class="search-field">
+            <span>搜索</span>
+            <input id="searchInput" type="search" placeholder="书名、作者、标签、出版社、ISBN" />
+          </label>
+          <select id="sortField" title="排序">
+            <option value="updated">最近更新</option>
+            <option value="title">书名</option>
+            <option value="author">作者</option>
+            <option value="size">大小</option>
+            <option value="format">格式</option>
+            <option value="douban">豆瓣评分</option>
+          </select>
+        </div>
+
+        <div class="bulkbar">
+          <div class="selection-actions">
+            <button id="selectPage">选择本页</button>
+            <button id="selectAllMatching">选择筛选结果</button>
+            <button id="clearSelection">清空选择</button>
+          </div>
+          <div class="batch-actions">
+            <input id="manualTags" type="text" placeholder="添加标签，逗号分隔" />
+            <button id="addTags">加标签</button>
+            <button id="copyDesktop">发送副本到桌面</button>
+            <button id="deleteSelected" class="danger">安全删除</button>
+          </div>
+        </div>
+
+        <div id="selectionInfo" class="selection-info"></div>
+        <div id="jobs" class="jobs"></div>
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th class="select-col"></th>
+                <th>书籍</th>
+                <th>豆瓣评分</th>
+                <th>出版社</th>
+                <th>标签</th>
+                <th>格式</th>
+                <th>大小</th>
+              </tr>
+            </thead>
+            <tbody id="bookRows"></tbody>
+          </table>
+        </div>
+
+        <footer class="pager">
+          <button id="prevPage">上一页</button>
+          <span id="pageInfo"></span>
+          <button id="nextPage">下一页</button>
+        </footer>
+      </section>
+    </main>
+
+    <dialog id="deleteDialog" class="modal">
+      <form method="dialog">
+        <h2>安全删除确认</h2>
+        <p id="deleteSummary"></p>
+        <div id="deleteSample" class="delete-sample"></div>
+        <label class="confirm-field">
+          <span>输入确认短语</span>
+          <input id="deleteConfirmText" type="text" autocomplete="off" />
+        </label>
+        <div class="modal-actions">
+          <button value="cancel">取消</button>
+          <button id="confirmDelete" type="button" class="danger">移动到安全备份区</button>
+        </div>
+      </form>
+    </dialog>
+
+    <div id="toast" class="toast" role="status" aria-live="polite"></div>
+    <script src="/app.js"></script>
+  </body>
+</html>
