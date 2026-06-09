@@ -1,0 +1,1 @@
+"""BookVault application package."""
