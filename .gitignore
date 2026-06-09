@@ -1,0 +1,16 @@
+__pycache__/
+*.py[cod]
+*.log
+
+data/
+logs/
+
+.venv/
+venv/
+.env
+.env.*
+
+.idea/
+.vscode/
+
+PAUSED_TASK.md
