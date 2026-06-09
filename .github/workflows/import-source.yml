@@ -1,0 +1,46 @@
+name: Import BookVault source
+
+on:
+  push:
+    paths:
+      - ".github/workflows/import-source.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  import:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Download and expand source bundle
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import io
+          import shutil
+          import urllib.request
+          import zipfile
+
+          url = "https://litter.catbox.moe/4efh2l.zip"
+          with urllib.request.urlopen(url, timeout=60) as response:
+              payload = response.read()
+          with zipfile.ZipFile(io.BytesIO(payload)) as archive:
+              archive.extractall(".")
+          shutil.rmtree("_upload", ignore_errors=True)
+          shutil.rmtree("_bundle", ignore_errors=True)
+          Path(".github/workflows/import-source.yml").unlink(missing_ok=True)
+          PY
+
+      - name: Commit imported source
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "Import complete BookVault source"
+          git push
